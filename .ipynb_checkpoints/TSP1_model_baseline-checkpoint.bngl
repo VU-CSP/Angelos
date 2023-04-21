@@ -1,0 +1,502 @@
+begin model
+########################################################################################################
+########################################################################################################
+########################################################################################################
+
+begin parameters
+
+ECM_Vol_tis_dis		0.51931
+EBM_Vol_tis_dis		0.00027
+PBM_Vol_tis_dis		0.002446
+ECM_conc		7.5e-7	
+EBM_conc		1.3e-5
+PBM_conc		1.3e-5
+tumorSA_Vol_tis_dis	1534
+VesselSA_Vol_tis_dis	105
+tumorCellSurfArea_tis_dis	9.97E-06
+VesselCellSurfArea_blood	1.00E-05
+VesselCellSurfArea_tis_dis	1.00E-05
+Avogadro		6.02E+23
+ratio			10
+qTSP1			10
+qMMP3			330
+qproMMP9		330
+qV165_tumor		0.387
+qV165_disEC		0.0324
+sR_receptors		0.00028
+kon_TSP1_CD36		5.00E+05
+kon_TSP1_GAG		5.00E+05
+kon_TSP1_CD47		5.00E+05
+kon_TSP1_VEGF		5.00E+05
+kon_V165_GAG		8600
+kon_TSP1_LRP1		2.10E+05
+kon_TSP1_B1		5.00E+05
+kon_MMP3_proMMP9	10000
+kon_TSP1_MMP3		1.00E+05
+kon_V165_N1		3.20E+06
+kon_V165_N2		1.00E+06
+kon_V165_R1		3.00E+07
+kon_V165_R2		1.00E+07
+kon_V121_R1		3.00E+07
+kon_V121_R2		1.00E+07
+koff_MMP9_LRP1		0.00049
+Kd_MMP9_LRP1		5.30E-08
+kc_V165N_R2_tumor	1.00E+14
+kc_V165R2_N_tumor	3.10E+13
+kc_R1_N_tumor		1.00E+14
+k_int_receptors		0.00028
+koff_TSP1_CD36		0.115
+koff_V165_GAG		0.00069
+koff_TSP1_GAG		0.1
+koff_TSP1_CD47		0.005
+koff_TSP1_VEGF		0.005
+koff_TSP1_LRP1		0.0025
+koff_TSP1_B1		0.05
+koff_MMP3_proMMP9	0.001
+koff_MMP3_TSP1		0.0022303
+koff_V165N1_R2		0.001
+koff_V121_R1		0.001
+koff_V165R2_N1		0.001
+koff_V121_R2		0.001
+koff_V165N2_R2		0.001
+koff_V165R2_N2		0.001
+koff_V165_N1		0.001
+koff_V165_N2		0.001
+koff_V165_R1		0.001
+koff_V165_R2		0.001
+kdissoc_CD36_B1		0.001
+kdissoc_CD47_VEGFR2	0.001
+kdissoc_CD36_VEGFR2	0.001
+kdissoc_R1_N		0.01
+kdeg_VEGF		0.000193
+kdeg_TSP1		0.00033
+kdeg_MMP		0.0012
+k_TSP1cleave		0.00386
+k_act_MMP3_proMMP9	0.0019
+
+kcCD36_R2		3.10E+11
+kcCD36_B1		3.10E+13
+kcCD47_R2		3.10E+11
+kp_mmp	631
+CD36_number_tum		2500
+CD47_number_tum		10000
+LRP1_number_tum		5000
+B1_number_tum		10000
+CD36_number_tis_dis_A	1250
+CD47_number_tis_dis_A	5000
+LRP1_number_tis_dis_A	2500
+B1_number_tis_dis_A	5000
+
+R1_number_tum		1100
+R2_number_tum		550
+N1_number_tum		39500
+N2_number_tum		39500
+R1_number_tis_dis_A	3750
+R2_number_tis_dis_A	300
+N1_number_tis_dis_A	20000
+N2_number_tis_dis_A	20000
+
+
+# calculated parameters 
+
+Interstit_Vol_tis_dis	ECM_Vol_tis_dis+EBM_Vol_tis_dis+PBM_Vol_tis_dis
+sR_CD36_tum		sR_receptors*CD36_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+sR_B1_tum		sR_receptors*B1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+sR_R2_tum		sR_receptors*R2_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+sR_CD47_tum		sR_receptors*CD47_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+sR_LRP1_tum		sR_receptors*LRP1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+sR_N1_tum		sR_receptors*N1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+sR_N2_tum		sR_receptors*N2_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+sR_R1_tum		sR_receptors*R1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+
+sR_B1_tis_dis_A		sR_receptors*B1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+sR_CD36_tis_dis_A	sR_receptors*CD36_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+sR_CD47_tis_dis_A	sR_receptors*CD47_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+sR_LRP1_tis_dis_A	sR_receptors*LRP1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+sR_R1_tis_dis_A		sR_receptors*R1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+sR_N1_tis_dis_A		sR_receptors*N1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+sR_R2_tis_dis_A		sR_receptors*R2_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+sR_N2_tis_dis_A		sR_receptors*N2_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+
+kon_TSP1_CD36_tumor	kon_TSP1_CD36*1000/Interstit_Vol_tis_dis
+kon_TSP1_CD47_tumor	kon_TSP1_CD47*1000/Interstit_Vol_tis_dis
+kon_TSP1_GAG_tumor	kon_TSP1_GAG*1000/Interstit_Vol_tis_dis
+kon_TSP1_VEGF_tumor	kon_TSP1_VEGF*1000/Interstit_Vol_tis_dis
+kon_V165_GAG_tumor	kon_V165_GAG*1000/Interstit_Vol_tis_dis
+kon_TSP1_LRP1_tumor	kon_TSP1_LRP1*1000/Interstit_Vol_tis_dis
+kon_TSP1_B1_tumor	kon_TSP1_B1*1000/Interstit_Vol_tis_dis
+kon_TSP1_MMP3_tumor	kon_TSP1_MMP3*1000/Interstit_Vol_tis_dis
+kon_MMP3_proMMP9_tumor	kon_MMP3_proMMP9*1000/Interstit_Vol_tis_dis
+
+kon_V165_N1_tumor	kon_V165_N1*1000/Interstit_Vol_tis_dis
+kon_V165_N2_tumor	kon_V165_N2*1000/Interstit_Vol_tis_dis
+kon_V165_R1_tumor	kon_V165_R1*1000/Interstit_Vol_tis_dis
+kon_V165_R2_tumor	kon_V165_R2*1000/Interstit_Vol_tis_dis
+kon_V121_R1_tumor	kon_V121_R1*1000/Interstit_Vol_tis_dis
+kon_V121_R2_tumor	kon_V121_R2*1000/Interstit_Vol_tis_dis
+kon_MMP9_LRP1_tumor	koff_MMP9_LRP1/Kd_MMP9_LRP1*1000/Interstit_Vol_tis_dis
+
+kcCD36_B1_tum		kcCD36_B1/tumorSA_Vol_tis_dis
+kcCD47_R2_tum		kcCD47_R2/tumorSA_Vol_tis_dis
+kcCD36_R2_tum		kcCD36_R2/tumorSA_Vol_tis_dis
+kc_R1_N_tum		kc_R1_N_tumor/tumorSA_Vol_tis_dis
+kc_V165N_R2_tum		kc_V165N_R2_tumor/tumorSA_Vol_tis_dis
+kc_V165R2_N_tum		kc_V165R2_N_tumor/tumorSA_Vol_tis_dis
+
+kcCD36_B1_tis_dis_A	kcCD36_B1/VesselSA_Vol_tis_dis
+kcCD36_R2_tis_dis_A	kcCD36_R2/VesselSA_Vol_tis_dis
+kcCD47_R2_tis_dis_A	kcCD47_R2/VesselSA_Vol_tis_dis
+kc_V165N_R2_tis_dis_A	kc_V165N_R2_tumor/VesselSA_Vol_tis_dis
+kc_V165R2_N_tis_dis_A	kc_V165R2_N_tumor/VesselSA_Vol_tis_dis
+kc_R1_N_tis_dis_A	kc_R1_N_tumor/VesselSA_Vol_tis_dis
+
+qproMMP9_ab	qproMMP9/Avogadro/VesselCellSurfArea_tis_dis*VesselSA_Vol_tis_dis
+qTSP1_disEC_ab	qTSP1/Avogadro/VesselCellSurfArea_tis_dis*VesselSA_Vol_tis_dis
+qV165_tis	qV165_tumor/Avogadro/tumorCellSurfArea_tis_dis*tumorSA_Vol_tis_dis
+qV121_disEC_ab	qV165_disEC*10/90/Avogadro/VesselCellSurfArea_tis_dis*VesselSA_Vol_tis_dis
+qV165_disEC_ab	qV165_disEC/Avogadro/VesselCellSurfArea_tis_dis*VesselSA_Vol_tis_dis
+qMMP3_ab	qMMP3/Avogadro/VesselCellSurfArea_tis_dis*VesselSA_Vol_tis_dis
+qV121_tis	qV165_tumor/Avogadro/tumorCellSurfArea_tis_dis*tumorSA_Vol_tis_dis
+qTSP1_tis	qTSP1/ratio/Avogadro/tumorCellSurfArea_tis_dis*tumorSA_Vol_tis_dis
+
+kp_tumor_mmp	kp_mmp*1000/Interstit_Vol_tis_dis
+
+##################################
+##################################
+
+# molecule initial values
+MECM_INIT	 	ECM_conc*ECM_Vol_tis_dis/1000
+MEBM_INIT	 	EBM_conc*EBM_Vol_tis_dis/1000
+MPBM_INIT		PBM_conc*PBM_Vol_tis_dis/1000
+CD36_tum_INIT 		CD36_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+B1_tum_INIT 		B1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+R2_tum_INIT 		R2_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+CD47_tum_INIT 		CD47_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+LRP1_tum_INIT 		LRP1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+CD36_disEC_INIT 	CD36_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+B1_disEC_INIT 		B1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+R2_disEC_INIT 		R2_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+CD47_disEC_INIT 	CD47_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+LRP1_disEC_INIT 	LRP1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+R1_tum_INIT 		R1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+N2_tum_INIT 		N2_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+N1_tum_INIT		N1_number_tum/tumorCellSurfArea_tis_dis/Avogadro*tumorSA_Vol_tis_dis
+N1_disEC_INIT 		N1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+R1_disEC_INIT 		R1_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+N2_disEC_INIT 		N2_number_tis_dis_A/VesselCellSurfArea_tis_dis/Avogadro*VesselSA_Vol_tis_dis
+
+end parameters
+
+########################################################################################################
+########################################################################################################
+########################################################################################################
+
+begin molecule types 
+
+#dummy variables 
+Trash()
+null()
+
+#Soluble Species 
+TSP1(VEGF,REC,MMP)
+VEGF(TSP,REC,GAG,isoform~165~121)
+V114(TSP)
+TSP1_cleaved()
+
+# Receptors 
+LRP1(REC,location~tum~disEC)
+CD36(REC,B1,R,location~tum~disEC)
+B1(REC,CD36,location~tum~disEC)
+R1(REC,N,location~tum~disEC)
+R2(REC,N,CD36,CD47,location~tum~disEC)
+CD47(REC,R,location~tum~disEC)
+N1(REC,R,location~tum~disEC)
+N2(REC,R,location~tum~disEC)
+
+# extracellular Matrix
+ECM(B,type~MECM~MEBM~MPBM)
+
+proMMP9(B)
+MMP9(B)
+MMP3(B)
+
+
+end molecule types
+
+########################################################################################################
+########################################################################################################
+########################################################################################################
+
+begin seed species
+
+#dummy variable
+Trash() 			0
+null()				1
+
+#Receptor levels
+ECM(B,type~MECM)			MECM_INIT 
+ECM(B,type~MEBM)			MEBM_INIT 
+ECM(B,type~MPBM)			MPBM_INIT 
+CD36(REC,B1,R,location~tum)		CD36_tum_INIT
+B1(REC,CD36,location~tum)		B1_tum_INIT
+R2(REC,N,CD36,CD47,location~tum)	R2_tum_INIT 
+CD47(REC,R,location~tum)		CD47_tum_INIT
+LRP1(REC,location~tum)			LRP1_tum_INIT 
+CD36(REC,B1,R,location~disEC)		CD36_disEC_INIT 
+B1(REC,CD36,location~disEC)		B1_disEC_INIT 
+R2(REC,N,CD36,CD47,location~disEC)	R2_disEC_INIT 
+CD47(REC,R,location~disEC)		CD47_disEC_INIT 
+LRP1(REC,location~disEC)		LRP1_disEC_INIT 
+R1(REC,N,location~tum)			R1_tum_INIT 
+N1(REC,R,location~tum)			N1_tum_INIT
+N2(REC,R,location~tum)			N2_tum_INIT 
+N1(REC,R,location~disEC)		N1_disEC_INIT 
+R1(REC,N,location~disEC)		R1_disEC_INIT 
+N2(REC,R,location~disEC)		N2_disEC_INIT 
+
+#Soluble species 
+TSP1(VEGF,REC,MMP)		0
+VEGF(TSP,REC,GAG,isoform~165)	0
+VEGF(TSP,REC,GAG,isoform~121)	0
+V114(TSP)			0
+proMMP9(B)			0
+MMP9(B)				0
+MMP3(B)				0
+TSP1_cleaved()			0
+
+end seed species
+
+########################################################################################################
+########################################################################################################
+########################################################################################################
+
+begin reaction rules
+
+### secretion/degradation
+
+null -> null + CD36(REC,B1,R,location~tum) sR_CD36_tum
+null -> null + CD36(REC,B1,R,location~disEC) sR_CD36_tis_dis_A
+null -> null + B1(REC,CD36,location~tum) sR_B1_tum
+null -> null + B1(REC,CD36,location~disEC) sR_B1_tis_dis_A
+null -> null + CD47(REC,R,location~tum) sR_CD47_tum
+null -> null + CD47(REC,R,location~disEC) sR_CD47_tis_dis_A
+
+null -> null + LRP1(REC,location~tum) sR_LRP1_tum
+null -> null + LRP1(REC,location~disEC) sR_LRP1_tis_dis_A
+
+null -> null + R1(REC,N,location~tum) sR_R1_tum
+null -> null + R2(REC,N,CD36,CD47,location~tum) sR_R2_tum
+null -> null + N1(REC,R,location~tum) sR_N1_tum
+null -> null + N2(REC,R,location~tum) sR_N2_tum
+
+null -> null + R1(REC,N,location~disEC) sR_R1_tis_dis_A
+null -> null + R2(REC,N,CD36,CD47,location~disEC) sR_R2_tis_dis_A
+null -> null + N1(REC,R,location~disEC) sR_N1_tis_dis_A
+null -> null + N2(REC,R,location~disEC) sR_N2_tis_dis_A
+
+R1(REC!?,N!?,location~?) -> Trash() k_int_receptors 
+R2(REC!?,N!?,CD36!?,CD47!?,location~?) -> Trash() k_int_receptors
+N2(REC!?,R,location~?) -> Trash() k_int_receptors
+N1(REC!?,R,location~?) -> Trash() k_int_receptors
+
+CD36(REC!?,B1!?,R,location~?) -> Trash() k_int_receptors
+B1(REC!?,CD36,location~?) -> Trash() k_int_receptors
+CD47(REC,R,location~?) -> Trash() k_int_receptors
+LRP1(REC!?,location~?) -> Trash() k_int_receptors 
+
+
+
+### TSP1 secretion/degradation
+
+null -> null + TSP1(VEGF,REC,MMP) qTSP1_tis+qTSP1_disEC_ab
+TSP1(VEGF,REC,MMP) -> Trash() kdeg_TSP1
+TSP1(VEGF,REC,MMP) -> TSP1_cleaved() k_TSP1cleave
+TSP1_cleaved() -> Trash() kdeg_TSP1
+
+
+
+### V165 secretion/degradation
+
+null -> null + VEGF(TSP,REC,GAG,isoform~165) qV165_tis+qV165_disEC_ab
+VEGF(TSP,REC,GAG,isoform~165) -> Trash() kdeg_VEGF 
+
+
+
+### V121 secretion/degradation
+
+null -> null + VEGF(TSP,REC,GAG,isoform~121) qV121_tis+qV121_disEC_ab
+VEGF(TSP,REC,GAG,isoform~121) -> Trash() kdeg_VEGF
+
+
+
+### V114 degradation
+
+V114(TSP) -> Trash() kdeg_VEGF
+
+
+
+### TSP1 VEGF binding, VEGF can bind to TSP1
+
+TSP1(VEGF,REC,MMP) + VEGF(TSP,REC,GAG,isoform~?) <->  TSP1(VEGF!1,REC,MMP).VEGF(TSP!1,REC,GAG,isoform~?) kon_TSP1_VEGF_tumor, koff_TSP1_VEGF
+TSP1(VEGF,REC,MMP) + V114(TSP) <-> TSP1(VEGF!1,REC,MMP).V114(TSP!1) kon_TSP1_VEGF_tumor, koff_TSP1_VEGF
+
+TSP1(VEGF!1,REC,MMP).VEGF(TSP!1,REC,GAG,isoform~?) -> Trash() kdeg_VEGF
+TSP1(VEGF!1,REC,MMP).V114(TSP!1) -> Trash() kdeg_VEGF
+
+
+
+### LRP Interactions
+
+TSP1(VEGF!?,REC,MMP) + LRP1(REC,location~?) <-> TSP1(VEGF!?,REC!1,MMP).LRP1(REC!1,location~?) kon_TSP1_LRP1_tumor, koff_TSP1_LRP1
+
+VEGF(TSP,REC,GAG,isoform~?) + TSP1(VEGF,REC!1,MMP).LRP1(REC!1,location~?) <-> VEGF(TSP!2,REC,GAG,isoform~?).TSP1(VEGF!2,REC!1,MMP).LRP1(REC!1,location~?) kon_TSP1_VEGF_tumor, koff_TSP1_VEGF
+
+
+
+### MMPs Matrix
+
+proMMP9(B) + MMP3(B) <-> proMMP9(B!1).MMP3(B!1) kon_MMP3_proMMP9_tumor, koff_MMP3_proMMP9
+proMMP9(B!1).MMP3(B!1) -> MMP9(B) + MMP3(B) k_act_MMP3_proMMP9
+MMP3(B) + TSP1(VEGF,REC,MMP) <-> MMP3(B!1).TSP1(VEGF,REC,MMP!1) kon_TSP1_MMP3_tumor, koff_MMP3_TSP1
+null -> null + proMMP9(B) qproMMP9_ab
+null -> null + MMP3(B) qMMP3_ab
+MMP3(B) -> Trash() kdeg_MMP
+MMP9(B) -> Trash() kdeg_MMP
+proMMP9(B!?) -> Trash() kdeg_MMP
+MMP3(B!1).TSP1(VEGF,REC,MMP!1) -> Trash() kdeg_TSP1
+
+MMP3(B) + VEGF(TSP,REC,GAG,isoform~165) -> MMP3(B) + V114(TSP) kp_tumor_mmp
+MMP9(B) + VEGF(TSP,REC,GAG,isoform~165) -> MMP9(B) + V114(TSP) kp_tumor_mmp
+
+MMP9(B) + LRP1(REC,location~?) <-> MMP9(B!1).LRP1(REC!1,location~?) kon_MMP9_LRP1_tumor, koff_MMP9_LRP1
+
+TSP1(VEGF,REC,MMP) + ECM(B,type~?) <-> TSP1(VEGF,REC!1,MMP).ECM(B!1,type~?) kon_TSP1_GAG_tumor, koff_TSP1_GAG
+
+VEGF(TSP,REC,GAG,isoform~165) + ECM(B,type~?) <-> VEGF(TSP,REC,GAG!1,isoform~165).ECM(B!1,type~?) kon_V165_GAG_tumor, koff_V165_GAG
+
+VEGF(TSP,REC,GAG!1,isoform~165).ECM(B!1,type~MECM) + MMP3(B) -> V114(TSP) + ECM(B,type~MECM) + MMP3(B) kp_tumor_mmp
+VEGF(TSP,REC,GAG!1,isoform~165).ECM(B!1,type~MECM) + MMP9(B) -> V114(TSP) + ECM(B,type~MECM) + MMP9(B) kp_tumor_mmp
+
+
+
+
+### VEGFR1 VEGFR1 N1 N2
+
+VEGF(TSP,REC,GAG,isoform~165) + R1(REC,N,location~?) <-> VEGF(TSP,REC!1,GAG,isoform~165).R1(REC!1,N,location~?) kon_V165_R1_tumor, koff_V165_R1
+VEGF(TSP,REC,GAG,isoform~165) + R2(REC,N,CD36!?,CD47!?,location~?) <-> VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N,CD36!?,CD47!?,location~?) kon_V165_R2_tumor, koff_V165_R2
+VEGF(TSP,REC,GAG,isoform~165) + N1(REC,R,location~?) <-> VEGF(TSP,REC!1,GAG,isoform~165).N1(REC!1,R,location~?) kon_V165_N1_tumor, koff_V165_N1
+VEGF(TSP,REC,GAG,isoform~165) + N2(REC,R,location~?) <-> VEGF(TSP,REC!1,GAG,isoform~165).N2(REC!1,R,location~?) kon_V165_N2_tumor, koff_V165_N2
+
+VEGF(TSP,REC,GAG,isoform~121) + R1(REC,N,location~?) <-> VEGF(TSP,REC!1,GAG,isoform~121).R1(REC!1,N,location~?) kon_V121_R1_tumor, koff_V121_R1
+VEGF(TSP,REC,GAG,isoform~121) + R2(REC,N,CD36,CD47,location~?) <-> VEGF(TSP,REC!1,GAG,isoform~121).R2(REC!1,N,CD36,CD47,location~?) kon_V121_R2_tumor, koff_V121_R2
+
+
+R2(REC,N,CD36,CD47,location~tum) + VEGF(TSP,REC!1,GAG,isoform~165).N1(REC!1,R,location~tum) <-> R2(REC,N!2,CD36,CD47,location~tum).VEGF(TSP,REC!1,GAG,isoform~165).N1(REC!1,R!2,location~tum) kc_V165N_R2_tum, koff_V165N1_R2
+N1(REC,R,location~tum) + VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N,CD36,CD47,location~tum) <-> N1(REC,R!2,location~tum).VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N!2,CD36,CD47,location~tum) kc_V165R2_N_tum, koff_V165R2_N1
+R2(REC,N,CD36,CD47,location~tum) + VEGF(TSP,REC!1,GAG,isoform~165).N2(REC!1,R,location~tum) <-> R2(REC,N!2,CD36,CD47,location~tum).VEGF(TSP,REC!1,GAG,isoform~165).N2(REC!1,R!2,location~tum) kc_V165N_R2_tum, koff_V165N2_R2
+N2(REC,R,location~tum) + VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N,CD36,CD47,location~tum) <-> N2(REC,R!2,location~tum).VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N!2,CD36,CD47,location~tum) kc_V165R2_N_tum, koff_V165R2_N2
+
+R2(REC,N,CD36,CD47,location~disEC) + VEGF(TSP,REC!1,GAG,isoform~165).N1(REC!1,R,location~disEC) <-> R2(REC,N!2,CD36,CD47,location~disEC).VEGF(TSP,REC!1,GAG,isoform~165).N1(REC!1,R!2,location~disEC) kc_V165N_R2_tis_dis_A, koff_V165N1_R2
+VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N,CD36,CD47,location~disEC) + N1(REC,R,location~disEC) <-> VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N!2,CD36,CD47,location~disEC).N1(REC,R!2,location~disEC) kc_V165R2_N_tis_dis_A, koff_V165R2_N1
+R2(REC,N,CD36,CD47,location~disEC) + VEGF(TSP,REC!1,GAG,isoform~165).N2(REC!1,R,location~disEC) <-> R2(REC,N!2,CD36,CD47,location~disEC).VEGF(TSP,REC!1,GAG,isoform~165).N2(REC!1,R!2,location~disEC) kc_V165N_R2_tis_dis_A, koff_V165N2_R2
+VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N,CD36,CD47,location~disEC) + N2(REC,R,location~disEC) <-> VEGF(TSP,REC!1,GAG,isoform~165).R2(REC!1,N!2,CD36,CD47,location~disEC).N2(REC,R!2,location~disEC) kc_V165R2_N_tis_dis_A, koff_V165R2_N2
+
+R1(REC,N,location~tum) + N2(REC,R,location~tum) <-> R1(REC,N!1,location~tum).N2(REC,R!1,location~tum) kc_R1_N_tum, kdissoc_R1_N
+R1(REC,N,location~tum) + N1(REC,R,location~tum) <-> R1(REC,N!1,location~tum).N1(REC,R!1,location~tum) kc_R1_N_tum, kdissoc_R1_N
+VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N,location~tum) + N2(REC,R,location~tum) <-> VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N!1,location~tum).N2(REC,R!1,location~tum) kc_R1_N_tum, kdissoc_R1_N
+VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N,location~tum) + N1(REC,R,location~tum) <-> VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N!1,location~tum).N1(REC,R!1,location~tum) kc_R1_N_tum, kdissoc_R1_N
+
+R1(REC,N,location~disEC) + N1(REC,R,location~disEC) <-> R1(REC,N!1,location~disEC).N1(REC,R!1,location~disEC) kc_R1_N_tis_dis_A, kdissoc_R1_N
+R1(REC,N,location~disEC) + N2(REC,R,location~disEC) <-> R1(REC,N!1,location~disEC).N2(REC,R!1,location~disEC) kc_R1_N_tis_dis_A, kdissoc_R1_N
+VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N,location~disEC) + N1(REC,R,location~disEC) <-> VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N!1,location~disEC).N1(REC,R!1,location~disEC) kc_R1_N_tis_dis_A, kdissoc_R1_N
+VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N,location~disEC) + N2(REC,R,location~disEC) <-> VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N!1,location~disEC).N2(REC,R!1,location~disEC) kc_R1_N_tis_dis_A, kdissoc_R1_N
+
+
+VEGF(TSP,REC,GAG,isoform~121) + R1(REC,N!1,location~?).N2(REC,R!1,location~?) <-> VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N!1,location~?).N2(REC,R!1,location~?) kon_V121_R1_tumor, koff_V121_R1
+VEGF(TSP,REC,GAG,isoform~121) + R1(REC,N!1,location~?).N1(REC,R!1,location~?) <-> VEGF(TSP,REC!2,GAG,isoform~121).R1(REC!2,N!1,location~?).N1(REC,R!1,location~?) kon_V121_R1_tumor, koff_V121_R1
+
+
+
+### CD47/VEGFR2
+
+TSP1(VEGF,REC,MMP) + CD47(REC,R!?,location~?) <->  TSP1(VEGF,REC!1,MMP).CD47(REC!1,R!?,location~?) kon_TSP1_CD47_tumor, koff_TSP1_CD47
+
+CD47(REC!?,R,location~tum) + R2(REC!?,N,CD36,CD47,location~tum) <-> CD47(REC!?,R!1,location~tum).R2(REC!?,N,CD36,CD47!1,location~tum) kcCD47_R2_tum, kdissoc_CD47_VEGFR2 
+CD47(REC!?,R,location~disEC) + R2(REC!?,N,CD36,CD47,location~disEC) <-> CD47(REC!?,R!1,location~disEC).R2(REC!?,N,CD36,CD47!1,location~disEC) kcCD47_R2_tis_dis_A, kdissoc_CD47_VEGFR2 
+
+
+
+### CD36 B1 VEGFR2 TSP1 V165/V121
+
+TSP1(VEGF,REC,MMP) + CD36(REC,B1,R!?,location~?) <-> TSP1(VEGF,REC!1,MMP).CD36(REC!1,B1,R!?,location~?) kon_TSP1_CD36_tumor, koff_TSP1_CD36
+
+TSP1(VEGF,REC,MMP) + B1(REC,CD36,location~?) <-> TSP1(VEGF,REC!1,MMP).B1(REC!1,CD36,location~?) kon_TSP1_B1_tumor, koff_TSP1_B1
+
+TSP1(VEGF,REC,MMP) + CD36(REC,B1!1,R!?,location~?).B1(REC,CD36!1,location~?) <-> TSP1(VEGF,REC!2,MMP).CD36(REC!2,B1!1,R!?,location~?).B1(REC,CD36!1,location~?) kon_TSP1_CD36_tumor, koff_TSP1_CD36
+TSP1(VEGF,REC,MMP) + CD36(REC,B1!1,R!?,location~?).B1(REC,CD36!1,location~?) <-> TSP1(VEGF,REC!2,MMP).CD36(REC,B1!1,R!?,location~?).B1(REC!2,CD36!1,location~?) kon_TSP1_B1_tumor, koff_TSP1_B1
+
+B1(REC,CD36,location~tum) + CD36(REC!?,B1,R!?,location~tum) <-> B1(REC,CD36!1,location~tum).CD36(REC!?,B1!1,R!?,location~tum) kcCD36_B1_tum, kdissoc_CD36_B1
+B1(REC!+,CD36,location~tum) + CD36(REC,B1,R!?,location~tum) <-> B1(REC!+,CD36!1,location~tum).CD36(REC,B1!1,R!?,location~tum) kcCD36_B1_tum, kdissoc_CD36_B1
+
+B1(REC,CD36,location~disEC) + CD36(REC!?,B1,R!?,location~disEC) <-> B1(REC,CD36!1,location~disEC).CD36(REC!?,B1!1,R!?,location~disEC) kcCD36_B1_tis_dis_A, kdissoc_CD36_B1
+B1(REC!+,CD36,location~disEC) + CD36(REC,B1,R!?,location~disEC) <-> B1(REC!+,CD36!1,location~disEC).CD36(REC,B1!1,R!?,location~disEC) kcCD36_B1_tis_dis_A, kdissoc_CD36_B1
+
+R2(REC!?,N,CD36,CD47,location~tum) + CD36(REC!?,B1!?,R,location~tum) <-> R2(REC!?,N,CD36!1,CD47,location~tum).CD36(REC!?,B1!?,R!1,location~tum) kcCD36_R2_tum, kdissoc_CD36_VEGFR2
+R2(REC!?,N,CD36,CD47,location~disEC) + CD36(REC!?,B1!?,R,location~disEC) <-> R2(REC!?,N,CD36!1,CD47,location~disEC).CD36(REC!?,B1!?,R!1,location~disEC) kcCD36_R2_tis_dis_A, kdissoc_CD36_VEGFR2
+
+
+end reaction rules
+
+########################################################################################################
+
+begin observables
+
+
+Molecules	TSP1_free			TSP1(VEGF,REC,MMP)
+Molecules	TSP1_VEGF		VEGF(TSP!1,REC,GAG,isoform~?).TSP1(VEGF!1,REC,MMP) V114(TSP!1).TSP1(VEGF!1,REC,MMP)
+Molecules	VEGF			VEGF(TSP,REC,GAG,isoform~?) V114(TSP)
+Molecules	MMP3			MMP3(B)
+Molecules	MMP9			MMP9(B)
+Molecules	proMMP9			proMMP9(B)
+Molecules	MMP3_TSP1		MMP3(B!1).TSP1(VEGF,REC,MMP!1)
+Molecules	V165			VEGF(TSP,REC,GAG,isoform~165)
+Molecules	V121			VEGF(TSP,REC,GAG,isoform~121)
+Molecules	V114			V114(TSP)
+Molecules	TSP1_cleaved		TSP1_cleaved()
+
+Molecules 	TSP1_total 		TSP1(VEGF!?,REC!?,MMP!?) TSP1_cleaved()
+
+Molecules	TSP1_VEGFbound		TSP1(VEGF!+,REC!?,MMP!?)
+Molecules	TSP1_RECbound		TSP1(VEGF,REC!1,MMP).CD36(REC!1) TSP1(VEGF,REC!1,MMP).CD47(REC!1) TSP1(VEGF,REC!1,MMP).LRP1(REC!1) TSP1(VEGF,REC!1,MMP).B1(REC!1)
+Molecules	TSP1_ECMbound		TSP1(VEGF,REC!1,MMP).ECM(B!1,type!?)
+Molecules	TSP1_MMP3bound		TSP1(VEGF,REC,MMP!+)
+
+Molecules 	VEGF_total		VEGF(TSP!?,REC!?,GAG!?,isoform~?) V114(TSP!?)
+
+Molecules 	VEGF_RECbound		VEGF(TSP!?,REC!+,GAG,isoform~?)
+
+Molecules 	VEGF_ECMbound		VEGF(TSP!?,REC,GAG!+,isoform~?)
+
+Molecules	TSP1_CD36		TSP1(VEGF,REC!1).CD36(REC!1,B1,R!?)
+Molecules	TSP1_CD47		TSP1(VEGF,REC!1).CD47(REC!1,R!?)
+Molecules	TSP1_LRP1		TSP1(VEGF!?,REC!1).LRP1(REC!1)
+Molecules	TSP1_B1			TSP1(VEGF,REC!1).B1(REC!1,CD36)
+Molecules	TSP1_B1_CD36		TSP1(VEGF,REC!1).CD36(REC!1,B1!+,R!?) TSP1(VEGF,REC!1).B1(REC!1,CD36!+)
+
+Molecules	VEGF_R1			VEGF(TSP,REC!1,GAG,isoform~?).R1(REC!1,N) 
+Molecules	VEGF_R2			VEGF(TSP,REC!1,GAG,isoform~?).R2(REC!1,N,CD36,CD47)
+Molecules	VEGF_N12		VEGF(TSP,REC!1,GAG,isoform~?).N1(REC!1,R) VEGF(TSP,REC!1,GAG,isoform~?).N2(REC!1,R)
+Molecules	VEGF_R1_N1N2		VEGF(TSP,REC!1,GAG,isoform~?).R1(REC!1,N!+)
+Molecules	VEGF_R2_N1N2		VEGF(TSP,REC!1,GAG,isoform~?).R2(REC!1,N!+,CD36,CD47) VEGF(TSP,REC!1,GAG,isoform~?).N1(REC!1,R!2).R2(REC,N!2,CD36,CD47) VEGF(TSP,REC!1,GAG,isoform~?).N2(REC!1,R!2).R2(REC,N!2,CD36,CD47)
+Molecules	VEGF_R2_other		R2(REC!+,N,CD36!?,CD47!?)
+
+Molecules	Total_REC_TSP1		CD47(REC!+,R!?) CD36(REC!+,B1!?,R!?) B1(REC!+,CD36!?) LRP1(REC!+) 
+Molecules	Total_REC_VEGF		R1(REC!+,N!?) R2(REC!+,N!?,CD36,CD47) N1(REC!+,R!?) N2(REC!+,R!?)
+
+end observables 
+
+end model
+
+generate_network({overwrite=>1});
+writeMfile({});
+writeSBML({});
